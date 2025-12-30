@@ -1874,6 +1874,25 @@
         "id": "drawer_drop_shadow",
         "label": "t:settings.drop_shadow",
         "default": false
+      },
+      {
+        "type": "header",
+        "content": "t:content.shipping_progress_bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "shipping_progress_bar_enabled",
+        "label": "t:settings.shipping_progress_bar_enabled",
+        "default": false,
+        "info": "t:info.shipping_progress_bar"
+      },
+      {
+        "type": "number",
+        "id": "shipping_progress_bar_threshold",
+        "label": "t:settings.shipping_progress_bar_threshold",
+        "default": 50,
+        "info": "t:info.shipping_progress_bar_threshold",
+        "visible_if": "{{ settings.shipping_progress_bar_enabled == true }}"
       }
     ]
   },

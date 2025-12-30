@@ -54,7 +54,8 @@
     "slideshow_previous": "Previous slide",
     "unit_price": "Unit price",
     "find_country": "Find country",
-    "view_pricing_info": "View pricing information"
+    "view_pricing_info": "View pricing information",
+    "shipping_progress": "Shipping progress toward free shipping threshold"
   },
   "actions": {
     // Quick add button on product cards, shortened version of add to cart
@@ -162,6 +163,8 @@
     "cart_subtotal": "Subtotal",
     "cart_total": "Cart total",
     "checkout": "Check out",
+    "add_more_for_free_shipping": "Add {{ amount }} more for free shipping",
+    "free_shipping_unlocked": "You've unlocked free shipping!",
     "collection_placeholder": "Collection title",
     "discount_code": "Discount code",
     "shipping_discount_error": "Shipping discounts are shown at checkout after adding an address",
