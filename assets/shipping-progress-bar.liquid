@@ -1,0 +1,76 @@
+{%- if settings.shipping_progress_bar_enabled and settings.cart_type == 'drawer' -%}
+  {%- liquid
+    assign threshold_cents = settings.shipping_progress_bar_threshold | times: 100
+    assign current_total = cart.total_price
+    assign remaining = threshold_cents | minus: current_total
+    assign progress_percentage = current_total | times: 100 | divided_by: threshold_cents
+    assign progress_percentage = progress_percentage | at_most: 100
+
+    if remaining <= 0
+      assign threshold_reached = true
+    else
+      assign threshold_reached = false
+    endif
+  -%}
+
+{% if cart != empty %}
+  <link
+    rel="stylesheet"
+    href="{{ 'shipping-progress-bar.css' | asset_url }}"
+    fetchpriority="low"
+  >
+  <script
+    src="{{ 'shipping-progress-bar.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  {%- liquid
+    assign success_message = 'content.free_shipping_unlocked' | t
+  -%}
+  <shipping-progress-bar
+    class="shipping-progress-bar"
+    data-threshold="{{ threshold_cents }}"
+    data-current-total="{{ current_total }}"
+    data-success-message="{{ success_message }}"
+    {% if threshold_reached %}
+      data-threshold-reached
+    {% endif %}
+  >
+    <div class="shipping-progress-bar__container">
+      {% unless threshold_reached %}
+        <p
+          class="shipping-progress-bar__message cart-primary-typography"
+          ref="message"
+        >
+          {% liquid
+            assign remaining_formatted = remaining | money
+            assign message_text = 'content.add_more_for_free_shipping' | t: amount: remaining_formatted
+          %}
+          {{ message_text }}
+        </p>
+      {% else %}
+        <p
+          class="shipping-progress-bar__message shipping-progress-bar__message--success cart-primary-typography"
+          ref="message"
+        >
+          {{ 'content.free_shipping_unlocked' | t }}
+        </p>
+      {% endunless %}
+
+      <div class="shipping-progress-bar__track">
+        <div
+          class="shipping-progress-bar__fill"
+          style="--progress: {{ progress_percentage }}%"
+          role="progressbar"
+          aria-valuenow="{{ progress_percentage }}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-label="{{ 'accessibility.shipping_progress' | t }}"
+          ref="fill"
+        ></div>
+      </div>
+    </div>
+  </shipping-progress-bar>
+{% endif %}
+{%- endif -%}
